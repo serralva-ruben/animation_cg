@@ -1,7 +1,9 @@
 import tkinter as tk
+from Object3D import Object3D
 from obj_handler import parse_obj_file
-from operations import rotate_y, translate
+from operations import translate
 from math import pi
+
 window = tk.Tk()
 window.title("3D Rotation of Teapot")
 
@@ -12,7 +14,7 @@ canvas = tk.Canvas(window, width=canvas_width, height=canvas_height)
 canvas.pack()
 
 FOV = pi/3
-ASPECT_RATIO = canvas_height/canvas_width
+ASPECT_RATIO = canvas_width/canvas_height
 near = 0.1
 far = 1000
 
@@ -20,7 +22,7 @@ vertices, faces = parse_obj_file('./shapes/teapot.obj')
 translated_vertices = translate(vertices, [0,0,-20], FOV, ASPECT_RATIO, near, far)
 
 
-def render(vertices, faces, canvas, canvas_width, canvas_height, near, far):
+def render(vertices, faces, canvas, canvas_width, canvas_height):
     # Clear the current canvas
     canvas.delete("all")
 
@@ -50,20 +52,20 @@ def render(vertices, faces, canvas, canvas_width, canvas_height, near, far):
             # Draw the line
             canvas.create_line(x1, y1, x2, y2)
 
-
-
-
-
 def animate_rotation(angle):
-    angle += 1
+    angle +=5
     
+    #teapot.render(canvas, canvas_width, canvas_height, near, far, FOV, angle)
+    teapot.render(canvas, canvas_width, canvas_height, angle)
     # Perform the rotation and get the new vertices
-    rotated_vertices = rotate_y(translated_vertices,angle,FOV,ASPECT_RATIO,near, far)
+    #rotated_vertices = rotate_y(translated_vertices,angle,FOV,ASPECT_RATIO,near, far)
     # Call the render functio
-    render(rotated_vertices , faces, canvas, canvas_width, canvas_height, near, far)
+    #render(rotated_vertices, faces, canvas, canvas_width, canvas_height)
 
     window.after(10, animate_rotation, angle)
 
+teapot = Object3D('./shapes/teapot.obj','./model/hammer/hammerTexture.jpg', [0,-5,20], FOV, ASPECT_RATIO,near, far)
+hammer = Object3D('./model/hammer/hammer.obj','./model/hammer/hammerTexture.jpg', [0,-40,100], FOV, ASPECT_RATIO,near, far )
 
 animate_rotation(0)
 window.mainloop()
