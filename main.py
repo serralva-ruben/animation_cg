@@ -32,7 +32,7 @@ def animate_rotation(angle):
     # Call the render functio
     #render(rotated_vertices, faces, canvas, canvas_width, canvas_height)
 
-    window.after(100, animate_rotation, angle)
+    window.after(10, animate_rotation, angle)
     
 teapot = Object3D('./shapes/teapot.obj','./model/hammer/hammerTexture.jpg', [0,-5,20], FOV, ASPECT_RATIO,near, far, canvas_width, canvas_height)
 hammer = Object3D('./model/hammer/hammer.obj','./model/hammer/hammerTexture.jpg', [0,-40,100], FOV, ASPECT_RATIO,near, far, canvas_width, canvas_height )
