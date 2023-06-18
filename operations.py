@@ -10,14 +10,24 @@ def rotate_around_world_y(vertices, angle, fov, aspect_ratio, near, far):
     rotated_vertices = [list(vertex[:3]) for vertex in rotated_vertices]
     return apply_perspective_projection(rotated_vertices, fov, aspect_ratio, near, far)
 
-def rotate_around_object_y(vertices, angle, position, fov, aspect_ratio, near, far):
-    translated_to_origin = vertices - position
+def rotate_around_object_y(vertices, angle, position):
+    # Translate the object to the world's origin
+    translated_to_origin_vertices = vertices - position
+
+    # Add the homogeneous coordinate to each vertex
+    homogeneous_vertices = np.array([np.append(vertex, 1) for vertex in translated_to_origin_vertices])
+
+    # Rotate the object
     rotation_matrix = rotation_y(angle)
-    homogeneous_vertices = [np.append(vertex, 1) for vertex in translated_to_origin]
-    rotated_vertices = [np.dot(rotation_matrix, vertex) for vertex in homogeneous_vertices]
-    rotated_vertices = [list(vertex[:3]) for vertex in rotated_vertices]
-    rotated_vertices += position
-    return apply_perspective_projection(rotated_vertices, fov, aspect_ratio, near, far)
+    rotated_vertices = np.dot(homogeneous_vertices, rotation_matrix.T)
+
+    # Remove the homogeneous coordinate
+    rotated_vertices = rotated_vertices[:, :3]
+
+    # Translate the object back to its original position
+    repositioned_vertices = rotated_vertices + position
+
+    return repositioned_vertices
 
 def scale(vertices, scale_vector, fov, aspect_ratio, near, far):
     scale_matrix = dilation(scale_vector)

@@ -3,10 +3,10 @@ from obj_handler import parse_obj_file
 from PIL import Image
 import numpy as np
 from operations import translate, rotate_around_object_y
-from math import tan
+from math import pi, tan
 
 class Object3D:
-    def __init__(self, obj_file_path, texture_path, position, fov, aspect_ratio, near, far):
+    def __init__(self, obj_file_path, texture_path, position, fov, aspect_ratio, near, far, canvas_width, canvas_height):
         self.vertices, self.faces = parse_obj_file(obj_file_path)
         self.texture_image = Image.open(texture_path)
         self.x, self.y, self.z = position
@@ -15,19 +15,23 @@ class Object3D:
         self.near = near
         self.far = far
         self.vertices = translate(self.vertices, [self.x, self.y, self.z], self.fov, self.aspect_ratio, self.near, self.far)
+        self.canvas_width = canvas_width
+        self.canvas_height = canvas_width
 
-    def render(self, canvas, canvas_width, canvas_height, angle):
+        self.r = random.randint(0, 255)
+        self.g = random.randint(0, 255)
+        self.b = random.randint(0, 255)
+
+    def render(self, canvas, angle):
         # Clear the current canvas
         canvas.delete("all")
 
-        # Rotate the object around its local origin (the object's local coordinate system)
-        self.vertices = rotate_around_object_y(self.vertices, angle, np.array([self.x, self.y, self.z]), self.fov, self.aspect_ratio, self.near, self.far)
-        
-        # Translate the object to its position in the world
+        angle_in_radians = angle * (pi / 180)
+        #Rotate the object around its local origin (the object's local coordinate system)
+        self.vertices = rotate_around_object_y(self.vertices,angle_in_radians, np.array([self.x, self.y, self.z]))
 
         # Convert to screen space coordinates
-        screen_vertices = [(x * canvas_width/2 + canvas_width/2, -y * canvas_height/2 + canvas_height/2, z) for x, y, z in self.vertices]
-
+        screen_vertices = [(x * self.canvas_width/2 + self.canvas_width/2, -y * self.canvas_height/2 + self.canvas_height/2, z) for x, y, z in self.vertices]
         # Draw the faces
         for face in self.faces:
             if len(face) > 3:
@@ -45,18 +49,16 @@ class Object3D:
             return
 
         # Calculate the normal vector of the face
-        normal = (v2[0] - v1[0]) * (v3[1] - v1[1]) - (v2[1] - v1[1]) * (v3[0] - v1[0])
+        u = np.array([v2[0] - v1[0], v2[1] - v1[1], v2[2] - v1[2]])
+        v = np.array([v3[0] - v1[0], v3[1] - v1[1], v3[2] - v1[2]])
+        normal = np.cross(u, v)
 
         # Perform backface culling check
-        if normal <= 0:
+        if normal[2] <= 0:
             return
 
         # Generate random RGB values
-        r = random.randint(0, 255)
-        g = random.randint(0, 255)
-        b = random.randint(0, 255)
-
-        fill_color = '#%02x%02x%02x' % (r, g, b)
+        fill_color = '#%02x%02x%02x' % (self.r, self.g, self.b)
 
         # Draw the lines of the face
         polygon_coords = [v1[0], v1[1], v2[0], v2[1], v3[0], v3[1]]
@@ -64,3 +66,5 @@ class Object3D:
         canvas.create_line(v1[0], v1[1], v2[0], v2[1])
         canvas.create_line(v2[0], v2[1], v3[0], v3[1])
         canvas.create_line(v3[0], v3[1], v1[0], v1[1])
+        print(f"{v1[0]},{v1[1]},{v2[0]},{v2[1]}")
+        canvas.update()

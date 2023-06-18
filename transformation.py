@@ -1,5 +1,6 @@
 import numpy as np
 import math
+from math import cos, sin
 
 def translation(v):
     # Creates a translation matrix based on a translation vector.
@@ -25,13 +26,10 @@ def rotation_x(angle):
     return value
 
 def rotation_y(angle):
-    # Create a rotation matrix around the Y-axis
-    angle = np.radians(angle)
-    value = np.array([[np.cos(angle), 0, np.sin(angle), 0],
-                      [0, 1, 0, 0],
-                      [-np.sin(angle), 0, np.cos(angle), 0],
-                      [0, 0, 0, 1]])
-    return value
+    return np.array([[cos(angle), 0, sin(angle), 0],
+                     [0, 1, 0, 0],
+                     [-sin(angle), 0, cos(angle), 0],
+                     [0, 0, 0, 1]])
 
 def rotation_z(angle):
     # Create a rotation matrix around the Z-axis
