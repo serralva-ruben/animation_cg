@@ -26,9 +26,9 @@ translated_vertices = translate(vertices, [0,0,-20], FOV, ASPECT_RATIO, near, fa
 GEAR_MODEL = './shapes/gears.obj'
 GEAR_TEXTURE = './model/hammer/hammerTexture.jpg'
     
-gear0 = Object3D(GEAR_MODEL,GEAR_TEXTURE, [-2.5,0,50], FOV, ASPECT_RATIO,near, far , canvas_width, canvas_height,90)
-gear1 = Object3D(GEAR_MODEL,GEAR_TEXTURE, [0,0,50], FOV, ASPECT_RATIO,near, far , canvas_width, canvas_height,90)
-gear2 = Object3D(GEAR_MODEL,GEAR_TEXTURE, [-7.7,0.85,50], FOV, ASPECT_RATIO,near, far , canvas_width, canvas_height,0)
+gear0 = Object3D(GEAR_MODEL,GEAR_TEXTURE, [10,0,40], FOV, ASPECT_RATIO,near, far , canvas_width, canvas_height,90)
+gear1 = Object3D(GEAR_MODEL,GEAR_TEXTURE, [0.6,0.2,40], FOV, ASPECT_RATIO,near, far , canvas_width, canvas_height,90)
+gear2 = Object3D(GEAR_MODEL,GEAR_TEXTURE, [-8.8,0.85,40], FOV, ASPECT_RATIO,near, far , canvas_width, canvas_height,0)
 
 def render_polygons(polygons, canvas, near, far):
     for vertices, color in polygons:
@@ -49,9 +49,9 @@ def render_polygons(polygons, canvas, near, far):
 def animate():
     canvas.delete("all")  # Clear the canvas at the beginning of each frame
     polygons = []
-    polygons += gear1.get_animated_polygons(-1)   # Adjust step value as needed
-    polygons += gear2.get_animated_polygons(1)   # Adjust step value as needed
-    polygons += gear0.get_animated_polygons(-3)   # Adjust step value as needed
+    polygons += gear1.get_animated_polygons(-40)   # Adjust step value as needed
+    polygons += gear2.get_animated_polygons(40)   # Adjust step value as needed
+    polygons += gear0.get_animated_polygons(40)   # Adjust step value as needed
     # Sort the polygons by the average z value of their vertices
     polygons.sort(key=lambda x: -np.mean([vertex[2] for vertex in x[0]]))
     # Render the polygons
