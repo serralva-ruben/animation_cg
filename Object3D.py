@@ -8,7 +8,7 @@ from math import pi, tan
 from utils import apply_perspective_projection
 
 class Object3D:
-    def __init__(self, obj_file_path, texture_path, position, fov, aspect_ratio, near, far, canvas_width, canvas_height):
+    def __init__(self, obj_file_path, texture_path, position, fov, aspect_ratio, near, far, canvas_width, canvas_height, start_angle):
         self.original_vertices, self.faces = parse_obj_file(obj_file_path)
         self.texture_image = Image.open(texture_path)
         self.x, self.y, self.z = position
@@ -17,6 +17,7 @@ class Object3D:
         self.aspect_ratio = aspect_ratio
         self.near = near
         self.far = far
+        self.angle = start_angle
 
         self.canvas_width = canvas_width
         self.canvas_height = canvas_width
@@ -25,18 +26,13 @@ class Object3D:
         self.g = random.randint(0, 255)
         self.b = random.randint(0, 255)
 
-    def start_animation(self, canvas, step):
-        self.angle = 0  # Initial rotation angle
-        self.animate(canvas, step)
-
     def animate(self, canvas, step):
         self.angle += step
         self.render(canvas, self.angle)
-        canvas.after(int(1000/60), self.animate, canvas, step)
 
     def render(self, canvas, angle):
         # Clear the current canvas
-        canvas.delete("all")
+        #canvas.delete("all")
         self.vertices = np.copy(self.original_vertices)
         # Translate, then rotate
         self.vertices = translate(self.vertices, [self.x, self.y, self.z], self.fov, self.aspect_ratio, self.near, self.far)

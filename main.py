@@ -28,8 +28,14 @@ gear = Object3D('./shapes/gears.obj','./model/hammer/hammerTexture.jpg', [0,0,40
 gear2 = Object3D('./shapes/gears.obj','./model/hammer/hammerTexture.jpg', [-9.5,0,40], FOV, ASPECT_RATIO,near, far , canvas_width, canvas_height)
 
 
-gear.start_animation(canvas, 40)
-gear2.start_animation(canvas, -40)
+def animate():
+    canvas.delete("all")  # Clear the canvas at the beginning of each frame
+    gear.animate(canvas, 10)
+    gear2.animate(canvas, -10)
+    canvas.after(int(1000/60), animate)
+
+animate()  # Start the animation
+window.mainloop()
 
 
 window.mainloop()
