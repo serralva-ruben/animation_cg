@@ -44,12 +44,6 @@ class Object3D:
         screen_vertices = [(x * self.canvas_width/2 + self.canvas_width/2, -y * self.canvas_height/2 + self.canvas_height/2, z) for x, y, z in self.vertices]
 
         polygons = []
-        current_time = time.time()
-        if current_time - self.last_color_change >= 2:
-            self.r = random.randint(0, 255)
-            self.g = random.randint(0, 255)
-            self.b = random.randint(0, 255)
-            self.last_color_change = current_time
         fill_color = '#%02x%02x%02x' % (self.r, self.g, self.b)
 
         for face in self.faces:
