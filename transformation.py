@@ -3,21 +3,24 @@ import math
 from math import cos, sin
 
 def translation(v):
-    # Creates a translation matrix based on a translation vector.
+    # Esta função cria uma matriz de translação com base num vetor de translação v.
+    # 'v' é uma lista ou array de valores representando a translação em cada dimensão.
     size = len(v)
     value = np.eye(size + 1)
     value[:-1, -1] = v
     return value
 
 def dilation(v):
-    # Creates a dilation matrix based on a dilation vector.
+    # Esta função cria uma matriz de dilatação com base num vetor de dilatação v.
+    # 'v' é uma lista ou array de valores representando a dilatação em cada dimensão.
     size = len(v)
     value = np.eye(size + 1)
     value[:-1, :-1] = np.diag(v)
     return value
 
 def rotation_x(angle):
-    # Create a rotation matrix around the X-axis
+    # Esta função cria uma matriz de rotação em torno do eixo X com base num ângulo fornecido.
+    # 'angle' é o ângulo de rotação em graus.
     angle = np.radians(angle)
     value = np.array([[1, 0, 0, 0],
                       [0, np.cos(angle), -np.sin(angle), 0],
@@ -26,13 +29,16 @@ def rotation_x(angle):
     return value
 
 def rotation_y(angle):
+    # Esta função cria uma matriz de rotação em torno do eixo Y com base num ângulo fornecido.
+    # 'angle' é o ângulo de rotação em graus.
     return np.array([[cos(angle), 0, sin(angle), 0],
                      [0, 1, 0, 0],
                      [-sin(angle), 0, cos(angle), 0],
                      [0, 0, 0, 1]])
 
 def rotation_z(angle):
-    # Create a rotation matrix around the Z-axis
+    # Esta função cria uma matriz de rotação em torno do eixo Z com base num ângulo fornecido.
+    # 'angle' é o ângulo de rotação em graus.
     angle = np.radians(angle)
     value = np.array([[np.cos(angle), -np.sin(angle), 0, 0],
                       [np.sin(angle), np.cos(angle), 0, 0],
