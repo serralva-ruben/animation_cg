@@ -2,7 +2,7 @@ import random
 from obj_handler import parse_obj_file
 from PIL import Image
 import numpy as np
-from operations import translate, rotate_around_object_y
+from operations import translate, rotate_around_object_y, scale
 from math import pi, tan
 
 class Object3D:
@@ -10,10 +10,12 @@ class Object3D:
         self.vertices, self.faces = parse_obj_file(obj_file_path)
         self.texture_image = Image.open(texture_path)
         self.x, self.y, self.z = position
+        print(position)
         self.fov = fov
         self.aspect_ratio = aspect_ratio
         self.near = near
         self.far = far
+        #self.vertices = scale(self.vertices,[1,1,1],self.fov,self.aspect_ratio,self.near, self.far)
         self.vertices = translate(self.vertices, [self.x, self.y, self.z], self.fov, self.aspect_ratio, self.near, self.far)
         self.canvas_width = canvas_width
         self.canvas_height = canvas_width
@@ -29,7 +31,6 @@ class Object3D:
         angle_in_radians = angle * (pi / 180)
         #Rotate the object around its local origin (the object's local coordinate system)
         self.vertices = rotate_around_object_y(self.vertices,angle_in_radians, np.array([self.x, self.y, self.z]))
-
         # Convert to screen space coordinates
         screen_vertices = [(x * self.canvas_width/2 + self.canvas_width/2, -y * self.canvas_height/2 + self.canvas_height/2, z) for x, y, z in self.vertices]
         # Draw the faces
@@ -66,4 +67,4 @@ class Object3D:
         canvas.create_line(v1[0], v1[1], v2[0], v2[1])
         canvas.create_line(v2[0], v2[1], v3[0], v3[1])
         canvas.create_line(v3[0], v3[1], v1[0], v1[1])
-        print(f"{v1[0]},{v1[1]},{v2[0]},{v2[1]}")
+        #print(f"{v1[0]},{v1[1]},{v2[0]},{v2[1]}")
