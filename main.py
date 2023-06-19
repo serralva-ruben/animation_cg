@@ -12,7 +12,7 @@ window.title("3D Rotation of Gears")
 # Create a canvas and pack it
 canvas_width = 800
 canvas_height = 600
-canvas = tk.Canvas(window, width=canvas_width, height=canvas_height, bg='#00FFFF')
+canvas = tk.Canvas(window, width=canvas_width, height=canvas_height, bg='#1E555C')
 canvas.pack()
 
 FOV = pi/3
@@ -34,16 +34,11 @@ gear6 = Object3D(GEAR_MODEL,GEAR_TEXTURE, [-4.6,0,40], FOV, ASPECT_RATIO,near, f
 gear7 = Object3D(GEAR_MODEL,GEAR_TEXTURE, [-4.6*2,0,40], FOV, ASPECT_RATIO,near, far , canvas_width, canvas_height,0)
 gear8 = Object3D(GEAR_MODEL,GEAR_TEXTURE, [-4.6*3,0,40], FOV, ASPECT_RATIO,near, far , canvas_width, canvas_height,0)
 gear9 = Object3D(GEAR_MODEL,GEAR_TEXTURE, [-4.6*4,0,40], FOV, ASPECT_RATIO,near, far , canvas_width, canvas_height,0)
-gearB0 = Object3D(GEAR_MODEL1,GEAR_TEXTURE, [4.6*5,0,40], FOV, ASPECT_RATIO,near, far , canvas_width, canvas_height,0)
-gearB1 = Object3D(GEAR_MODEL1,GEAR_TEXTURE, [4.6*4,0,40], FOV, ASPECT_RATIO,near, far , canvas_width, canvas_height,0)
-gearB2 = Object3D(GEAR_MODEL1,GEAR_TEXTURE, [4.6*3,0,40], FOV, ASPECT_RATIO,near, far , canvas_width, canvas_height,0)
-gearB3 = Object3D(GEAR_MODEL1,GEAR_TEXTURE, [4.6*2,0,40], FOV, ASPECT_RATIO,near, far , canvas_width, canvas_height,0)
-gearB4 = Object3D(GEAR_MODEL1,GEAR_TEXTURE, [4.6,0,40], FOV, ASPECT_RATIO,near, far , canvas_width, canvas_height,0)
-gearB5 = Object3D(GEAR_MODEL1,GEAR_TEXTURE, [0,0,40], FOV, ASPECT_RATIO,near, far , canvas_width, canvas_height,0)
-gearB6 = Object3D(GEAR_MODEL1,GEAR_TEXTURE, [-4.6,0,40], FOV, ASPECT_RATIO,near, far , canvas_width, canvas_height,0)
-gearB7 = Object3D(GEAR_MODEL1,GEAR_TEXTURE, [-4.6*2,0,40], FOV, ASPECT_RATIO,near, far , canvas_width, canvas_height,0)
-gearB8 = Object3D(GEAR_MODEL1,GEAR_TEXTURE, [-4.6*3,0,40], FOV, ASPECT_RATIO,near, far , canvas_width, canvas_height,0)
-gearB9 = Object3D(GEAR_MODEL1,GEAR_TEXTURE, [-4.6*4,0,40], FOV, ASPECT_RATIO,near, far , canvas_width, canvas_height,0)
+gearB0 = Object3D(GEAR_MODEL1,GEAR_TEXTURE, [-2*9.4,-14.2,40], FOV, ASPECT_RATIO,near, far , canvas_width, canvas_height,0)
+gearB1 = Object3D(GEAR_MODEL1,GEAR_TEXTURE, [-9.4,-14.5,40], FOV, ASPECT_RATIO,near, far , canvas_width, canvas_height,0)
+gearB2 = Object3D(GEAR_MODEL1,GEAR_TEXTURE, [0,-14.9,40], FOV, ASPECT_RATIO,near, far , canvas_width, canvas_height,0)
+gearB3 = Object3D(GEAR_MODEL1,GEAR_TEXTURE, [9.4,-15.4,40], FOV, ASPECT_RATIO,near, far , canvas_width, canvas_height,0)
+gearB4 = Object3D(GEAR_MODEL1,GEAR_TEXTURE, [9.4*2,-16,40], FOV, ASPECT_RATIO,near, far , canvas_width, canvas_height,0)
 
 center_x, center_y = canvas_width / 2, canvas_height / 2  # Screen center
 
@@ -84,17 +79,11 @@ def animate():
     polygons += gear8.get_animated_polygons(speed)   # Adjust step value as needed
     polygons += gear9.get_animated_polygons(-speed)   # Adjust step value as needed
 
-    polygons += gearB0.get_animated_polygons(speed)   # Adjust step value as needed
-    polygons += gearB1.get_animated_polygons(-speed)   # Adjust step value as needed
-    polygons += gearB2.get_animated_polygons(speed)   # Adjust step value as needed
-    polygons += gearB3.get_animated_polygons(-speed)   # Adjust step value as needed
-    polygons += gearB4.get_animated_polygons(speed)   # Adjust step value as needed
-    polygons += gearB5.get_animated_polygons(-speed)   # Adjust step value as needed
-    polygons += gearB6.get_animated_polygons(speed)   # Adjust step value as needed
-    polygons += gearB7.get_animated_polygons(-speed)   # Adjust step value as needed
-    polygons += gearB8.get_animated_polygons(speed)   # Adjust step value as needed
-    polygons += gearB9.get_animated_polygons(-speed)   # Adjust step value as needed
-
+    polygons += gearB0.get_animated_polygons(-speed)   # Adjust step value as needed
+    polygons += gearB1.get_animated_polygons(speed)   # Adjust step value as needed
+    polygons += gearB2.get_animated_polygons(-speed)   # Adjust step value as needed
+    polygons += gearB3.get_animated_polygons(speed)   # Adjust step value as needed
+    polygons += gearB4.get_animated_polygons(-speed)   # Adjust step value as needed
 
    # Sort the polygons by the average squared distance of their vertices to the center of the screen
     polygons.sort(key=lambda x: -np.mean([distance_to_center(vertex) for vertex in x[0]]))
