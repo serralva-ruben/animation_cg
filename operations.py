@@ -65,8 +65,6 @@ def rotate_around_object_z(vertices, angle, position):
     return repositioned_vertices
 
 
-
-
 def scale(vertices, scale_vector, fov, aspect_ratio, near, far):
     scale_matrix = dilation(scale_vector)
     homogeneous_vertices = [np.append(vertex, 1) for vertex in vertices]

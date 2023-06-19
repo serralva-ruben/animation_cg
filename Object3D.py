@@ -26,19 +26,20 @@ class Object3D:
         self.g = random.randint(0, 255)
         self.b = random.randint(0, 255)
 
-        self.ystep = 0
+        self.xstep = 0
 
     def get_animated_polygons(self, step):
         self.angle += step
-        self.ystep += 2
+        self.xstep += 50
         self.vertices = np.copy(self.original_vertices)
         self.vertices = translate(self.vertices, [self.x, self.y, self.z], self.fov, self.aspect_ratio, self.near, self.far)
         # Convert the self.angle to radians and use it for the y-rotation
         angle_in_radians = self.angle * (pi / 180)
-        self.vertices = rotate_around_object_y(self.vertices, 90 * (pi / 180), np.mean(self.vertices, axis=0))
-        self.vertices = rotate_around_object_y(self.vertices, self.ystep * (pi / 180), np.mean(self.vertices, axis=0))
 
-        self.vertices = rotate_around_object_z(self.vertices, angle_in_radians, np.mean(self.vertices, axis=0))
+        self.vertices = rotate_around_object_y(self.vertices, 90 * (pi / 180), np.mean(self.vertices, axis=0))
+        self.vertices = rotate_around_object_z(self.vertices, self.angle * (pi / 180), np.mean(self.vertices, axis=0))
+        self.vertices = rotate_around_object_x(self.vertices, 0 * (pi / 180), np.mean(self.vertices, axis=0))
+
         self.vertices = apply_perspective_projection(self.vertices, self.fov, self.aspect_ratio, self.near, self.far)
         screen_vertices = [(x * self.canvas_width/2 + self.canvas_width/2, -y * self.canvas_height/2 + self.canvas_height/2, z) for x, y, z in self.vertices]
 
