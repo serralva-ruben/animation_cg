@@ -21,22 +21,15 @@ far = 1000
 
 vertices, faces = parse_obj_file('./shapes/teapot.obj')
 translated_vertices = translate(vertices, [0,0,-20], FOV, ASPECT_RATIO, near, far)
-
-def animate_rotation(angle):
-    angle = 1
-
-    #teapot.render(canvas, canvas_width, canvas_height, near, far, FOV, angle)
-    teapot.render(canvas, angle)
-    # Perform the rotation and get the new vertices
-    #rotated_vertices = rotate(translated_vertices,angle,FOV,ASPECT_RATIO,near, far)
-    # Call the render functio
-    #render(rotated_vertices, faces, canvas, canvas_width, canvas_height)
-
-    window.after(10, animate_rotation, angle)
     
 teapot = Object3D('./shapes/teapot.obj','./model/hammer/hammerTexture.jpg', [0,0,20], FOV, ASPECT_RATIO,near, far, canvas_width, canvas_height)
 hammer = Object3D('./model/hammer/hammer.obj','./model/hammer/hammerTexture.jpg', [0,0,10], FOV, ASPECT_RATIO,near, far, canvas_width, canvas_height )
-gear = Object3D('./shapes/gears.obj','./model/hammer/hammerTexture.jpg', [0,0,20], FOV, ASPECT_RATIO,near, far , canvas_width, canvas_height)
+gear = Object3D('./shapes/gears.obj','./model/hammer/hammerTexture.jpg', [0,0,40], FOV, ASPECT_RATIO,near, far , canvas_width, canvas_height)
+gear2 = Object3D('./shapes/gears.obj','./model/hammer/hammerTexture.jpg', [-9.5,0,40], FOV, ASPECT_RATIO,near, far , canvas_width, canvas_height)
 
-animate_rotation(0)
+
+gear.start_animation(canvas, 40)
+gear2.start_animation(canvas, -40)
+
+
 window.mainloop()
